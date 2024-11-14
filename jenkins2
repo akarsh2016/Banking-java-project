@@ -1,0 +1,49 @@
+pipeline {
+    agent any  // Define where the pipeline will run
+
+    stages {  // Define the stages block which contains individual stages
+        stage('Checkout the code from GitHub') {
+            steps {
+                // Checkout the code from the specified GitHub repository
+                git url: 'https://github.com/akarsh2016/Banking-java-project'
+                echo 'GitHub URL checkout'
+            }
+        }
+
+        stage('Code compile with Akarsh') {
+            steps {
+                // Compile the code using Maven
+                echo 'Starting compilation'
+                sh 'mvn compile'
+            }
+        }
+
+        stage('Code testing with Akarsh') {
+            steps {
+                // Run tests using Maven
+                sh 'mvn test'
+            }
+        }
+
+        stage('QA with Akarsh') {
+            steps {
+                // Run Checkstyle analysis
+                sh 'mvn checkstyle:checkstyle'
+            }
+        }
+
+        stage('Package with Akarsh') {
+            steps {
+                // Package the code using Maven
+                sh 'mvn package'
+            }
+        }
+
+        stage('Run Dockerfile') {
+            steps {
+                // Build the Docker image
+                sh 'docker build -t myimg .'
+            }
+        }
+    }
+}
